@@ -1,0 +1,13 @@
+
+ext.SettingsPropertiesPath = "$rootDir/settings_shaker.properties"
+
+ext.getValueProperties = { String propertiesPath ->
+    File propsFile = new File(propertiesPath)
+    if (propsFile.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props
+    } else {
+        return null
+    }
+}

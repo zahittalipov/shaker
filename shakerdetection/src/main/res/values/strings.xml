@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">shakerdetection</string>
+    <string name="text_version_name">Версия программы:</string>
+    <string name="text_version_code">Версия кода:</string>
+    <string name="text_hint_comment">Комментарий</string>
+    <string name="send">Отправить</string>
+    <string name="text_hint_title">Название задачи</string>
+    <string name="text_hint_name_branch">Название ветки</string>
+    <string name="text_please_wait">Пожалуйста подождите</string>
+    <string name="text_auth_error">Ошибка при авторизации</string>
+    <string name="text_button_ok">ОК</string>
+    <string name="text_body_json" formatted="false">
+    [
+        {
+            \"color\": \"#36a64f\",
+            \"author_name\": \"from %s (Android %s)\",
+            \"title\": \"Show logs\",
+            \"title_link\": \"%s\",
+            \"fields\": [
+                {
+                    \"title\": \"Project\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                },
+				{
+                    \"title\": \"Version\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                }
+        ,
+				{
+                    \"title\": \"Version code\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                }
+            ],
+			\"mrkdwn_in\": [\"author_name\",\"title\"],
+            \"image_url\": \"%s\",
+
+            \"ts\": %s
+        },
+        {
+            \"color\": \"#36a64f\",
+            \"title\": \"Show screenshot\",
+            \"title_link\": \"%s\"
+        }
+    ]
+    </string>
+    <string name="select_channel">Выберите канал</string>
+    <string name="slack_authorize" formatted="false"><![CDATA[https://slack.com/oauth/authorize?client_id=%s&scope=%s&redirect_uri=%s&team=%s]]></string>
+    <string name="settings_slack">Настройки Slack</string>
+    <string name="create_issue_jira">Создать задачу в Jira</string>
+    <string name="notification_slack">Оповещение в Slack</string>
+    <string name="enter_name_issue">Введите название задачи</string>
+    <string name="nothing_not_selected">Ничего не выбрано</string>
+    <string name="screenshot">content_desription</string>
+    <string name="general_error">Произошла неизвестная ошибка</string>
+    <string name="message_sended">Сообщение отправлено</string>
+</resources>
