@@ -8,3 +8,4 @@
 /captures
 .externalNativeBuild
 /app/src/main/assets/settings_shaker.properties
+/app/src/main/res/values/shaker_settings.xml

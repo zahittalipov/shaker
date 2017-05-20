@@ -9,6 +9,8 @@ import com.angelectro.shakerdetection.base.BasePresenter;
 import com.angelectro.shakerdetection.data.DataManager;
 import com.angelectro.shakerdetection.data.model.SlackAuthData;
 import com.angelectro.shakerdetection.data.model.SlackFileResponse;
+import com.angelectro.shakerdetection.data.model.SlackResponse;
+import com.angelectro.shakerdetection.exception.JiraUserNotAuthenticatedException;
 import com.angelectro.shakerdetection.exception.SlackUserNotSettingsException;
 import com.angelectro.shakerdetection.model.InformationLog;
 import com.angelectro.shakerdetection.utils.PrefUtils;
@@ -22,25 +24,36 @@ import rx.schedulers.Schedulers;
 
 public class CreateIssuePresenter extends BasePresenter<CreateIssueView> {
 
-
-    Context mContext;
+    private Context mContext;
     private SlackAuthData mAuthData;
+    private DataManager mDataManager;
 
     public CreateIssuePresenter(Context context) {
         mContext = context;
         mDataManager = DataManager.getInstance();
-        mAuthData = PrefUtils.Slack.getAuthData(mContext);
     }
 
-    DataManager mDataManager;
-
-    void sendInfoSlack(@NonNull final InformationLog informationLog) {
-        if (mAuthData == null || PrefUtils.Slack.getChannelId(mContext) == null) {
+    void sendInfo(@NonNull final InformationLog informationLog, boolean isSendSlack, boolean isSendJira, String titleIssue) {
+        mAuthData = PrefUtils.Slack.getAuthData(mContext);
+        if (isSendSlack && (mAuthData == null || PrefUtils.Slack.getChannelId(mContext) == null)) {
             getMvpView().showError(new SlackUserNotSettingsException());
             return;
         }
+        if (isSendJira) {
+            getMvpView().showError(new JiraUserNotAuthenticatedException());
+        }
+
+        sendInfoSlack(informationLog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(getMvpView()::showLoading)
+                .doOnTerminate(getMvpView()::hideLoading)
+                .subscribe(responseBody -> getMvpView().sendResult(responseBody.getOk()), getMvpView()::showError);
+
+    }
+
+    private Observable<SlackResponse> sendInfoSlack(InformationLog informationLog) {
         Observable<SlackFileResponse> responseSendLogs = mDataManager.uploadLogs(mAuthData, informationLog.getLogs()).subscribeOn(Schedulers.io());
-        Observable.just(informationLog)
+        return Observable.just(informationLog)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .map(informationLog1 -> {
@@ -49,24 +62,23 @@ public class CreateIssuePresenter extends BasePresenter<CreateIssueView> {
                     return stream.toByteArray();
                 })
                 .flatMap(bytes -> mDataManager.uploadScreenshot(mAuthData, bytes))
-                .zipWith(responseSendLogs, (slackFileResponse, slackFileResponse2) -> {
-                    if (!slackFileResponse.getOk() || !slackFileResponse2.getOk()) {
+                .zipWith(responseSendLogs, (slackSendScreenshotResponse, slackSendLogsResponse) -> {
+                    if (!slackSendScreenshotResponse.getOk() || !slackSendLogsResponse.getOk()) {
                         getMvpView().showError(new Exception(mContext.getString(R.string.general_error)));
                     }
                     return mDataManager.postMessage(mContext,
                             mAuthData,
                             informationLog,
                             PrefUtils.Slack.getChannelId(mContext),
-                            slackFileResponse2.getFile().getUrlPrivate(),
-                            slackFileResponse.getFile().getUrlPrivate()
+                            slackSendLogsResponse.getFile().getUrlPrivate(),
+                            slackSendScreenshotResponse.getFile().getUrlPrivate()
                     );
                 })
-                .flatMap(responseBodyObservable -> responseBodyObservable)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(getMvpView()::showLoading)
-                .doOnTerminate(getMvpView()::hideLoading)
-                .subscribe(responseBody -> getMvpView().sendResult(responseBody.getOk()),getMvpView()::showError);
-
+                .flatMap(responseBodyObservable -> responseBodyObservable);
     }
 
+
+    public void saveSettings(boolean isSendSlack, boolean isSendJira){
+        PrefUtils.Settings.saveSettings(mContext,isSendSlack,isSendJira);
+    }
 }

@@ -15,13 +15,11 @@ import retrofit2.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by Загит Талипов on 23.04.2017.
- */
+
 
 public class SettingsSlackPresenter extends BasePresenter<SettingsSlackView> {
 
-    DataManager mDataManager;
+    private DataManager mDataManager;
     private Context mContext;
 
 
@@ -33,12 +31,13 @@ public class SettingsSlackPresenter extends BasePresenter<SettingsSlackView> {
     public void getAccessToken(String code) {
         mDataManager.getAccessToken(code)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .map(slackAuthData -> {
                     PrefUtils.Slack.saveAuthData(mContext, slackAuthData);
                     return slackAuthData;
                 })
                 .flatMap(slackAuthData -> mDataManager.getChannelsList(slackAuthData.getAccessToken()))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getMvpView()::showChannelsList,getMvpView()::showError);
     }
 

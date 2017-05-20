@@ -8,6 +8,7 @@ import com.angelectro.shakerdetection.data.model.SlackChannelResponse;
 import com.angelectro.shakerdetection.data.model.SlackFileResponse;
 import com.angelectro.shakerdetection.data.model.SlackResponse;
 import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.model.AuthSettings;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,19 +17,20 @@ import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import rx.Observable;
 
 
 public class DataManager {
-    public static String CLIENT_ID_SLACK;
-    public static String CLIENT_SECRET_SLACK;
     public static String SCOPE_SLACK = "channels:write,files:write:user,chat:write:user,channels:read";
-    public static String REDIRECT_URI_SLACK;
     public static String TEAM_SLACK = "1";
     private SlackService mSlackService;
     private static DataManager ourInstance = new DataManager();
+
+    public static AuthSettings getSettings() {
+        return settings;
+    }
+
+    private static AuthSettings settings;
 
     public static DataManager getInstance() {
         return ourInstance;
@@ -36,6 +38,10 @@ public class DataManager {
 
     private DataManager() {
         mSlackService = ApiHelper.getSlackService();
+    }
+
+    public static void setSettings(AuthSettings settings) {
+        DataManager.settings = settings;
     }
 
     public Observable<SlackFileResponse> uploadScreenshot(SlackAuthData data, byte[] fileBytes) {
@@ -56,10 +62,10 @@ public class DataManager {
     }
 
     public Observable<SlackAuthData> getAccessToken(String code) {
-        return mSlackService.getAccessToken(CLIENT_ID_SLACK,
-                CLIENT_SECRET_SLACK,
+        return mSlackService.getAccessToken(settings.getSlackClientId(),
+                settings.getSlackClientSecret(),
                 code,
-                REDIRECT_URI_SLACK);
+                settings.getSlackRedirectUri());
     }
 
     public Observable<SlackResponse> postMessage(Context context, SlackAuthData data, InformationLog informationLog, String channel,

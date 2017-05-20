@@ -12,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 
-
 public class PrefUtils {
 
 
@@ -47,6 +46,32 @@ public class PrefUtils {
 
         private static SharedPreferences getPreferences(Context context) {
             return context.getSharedPreferences(Slack.class.getSimpleName(), Context.MODE_PRIVATE);
+        }
+
+        private static SharedPreferences.Editor getEditor(Context context) {
+            return getPreferences(context).edit();
+        }
+    }
+
+    public static class Settings {
+        private static final String PREF_CHECK_SLACK = "slack";
+        private static final String PREF_CHECK_JIRA = "jira";
+
+        public static void saveSettings(Context context, boolean isSendSlack, boolean isSendJira) {
+            getEditor(context).putBoolean(PREF_CHECK_JIRA, isSendJira)
+                    .putBoolean(PREF_CHECK_SLACK, isSendSlack).commit();
+        }
+
+        public static boolean isCheckedSlack(Context context) {
+            return getPreferences(context).getBoolean(PREF_CHECK_SLACK, false);
+        }
+
+        public static boolean isCheckedJira(Context context) {
+            return getPreferences(context).getBoolean(PREF_CHECK_JIRA, false);
+        }
+
+        private static SharedPreferences getPreferences(Context context) {
+            return context.getSharedPreferences(Settings.class.getSimpleName(), Context.MODE_PRIVATE);
         }
 
         private static SharedPreferences.Editor getEditor(Context context) {

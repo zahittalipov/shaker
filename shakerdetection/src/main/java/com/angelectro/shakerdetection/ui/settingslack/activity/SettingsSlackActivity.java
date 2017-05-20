@@ -9,8 +9,7 @@ import android.webkit.WebViewClient;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.angelectro.shakerdetection.R;
-import com.angelectro.shakerdetection.action.Action;
-import com.angelectro.shakerdetection.data.model.Channel;
+import com.angelectro.shakerdetection.data.DataManager;
 import com.angelectro.shakerdetection.data.model.SlackAuthData;
 import com.angelectro.shakerdetection.data.model.SlackChannelResponse;
 import com.angelectro.shakerdetection.ui.settingslack.presenter.SettingsSlackPresenter;
@@ -18,14 +17,9 @@ import com.angelectro.shakerdetection.ui.settingslack.view.SettingsSlackView;
 import com.angelectro.shakerdetection.utils.PrefUtils;
 import com.angelectro.shakerdetection.utils.UiUtils;
 
-import static com.angelectro.shakerdetection.data.DataManager.CLIENT_ID_SLACK;
-import static com.angelectro.shakerdetection.data.DataManager.REDIRECT_URI_SLACK;
 import static com.angelectro.shakerdetection.data.DataManager.SCOPE_SLACK;
 import static com.angelectro.shakerdetection.data.DataManager.TEAM_SLACK;
 
-/**
- * Created by Загит Талипов on 23.04.2017.
- */
 
 public class SettingsSlackActivity extends AppCompatActivity implements SettingsSlackView {
 
@@ -33,6 +27,7 @@ public class SettingsSlackActivity extends AppCompatActivity implements Settings
     WebView mWebView;
     SettingsSlackPresenter mPresenter;
     private MaterialDialog mProgressDialog;
+    private static String QUERY_CODE = "code";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +45,9 @@ public class SettingsSlackActivity extends AppCompatActivity implements Settings
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new SlackWebViewClient());
             mWebView.loadUrl(String.format(getString(R.string.slack_authorize),
-                    CLIENT_ID_SLACK,
+                    DataManager.getSettings().getSlackClientId(),
                     SCOPE_SLACK,
-                    REDIRECT_URI_SLACK,
+                    DataManager.getSettings().getSlackRedirectUri(),
                     TEAM_SLACK));
         } else {
             showLoading();
@@ -68,13 +63,10 @@ public class SettingsSlackActivity extends AppCompatActivity implements Settings
     @Override
     public void showChannelsList(SlackChannelResponse body) {
         hideLoading();
-        UiUtils.showSingleChoiceChannelDialog(this, body.getChannels(), new Action<Channel>() {
-            @Override
-            public void call(Channel channel) {
-                PrefUtils.Slack.saveChannel(getApplicationContext(), channel.getId());
-                setResult(RESULT_OK);
-                finish();
-            }
+        UiUtils.showSingleChoiceChannelDialog(this, body.getChannels(), channel -> {
+            PrefUtils.Slack.saveChannel(getApplicationContext(), channel.getId());
+            setResult(RESULT_OK);
+            finish();
         });
     }
 
@@ -104,10 +96,10 @@ public class SettingsSlackActivity extends AppCompatActivity implements Settings
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.startsWith(REDIRECT_URI_SLACK)) {
+            if (url.startsWith(DataManager.getSettings().getSlackRedirectUri())) {
                 Uri uri = Uri.parse(url);
                 if (!mCodeReceived) {
-                    String code = uri.getQueryParameter("code");
+                    String code = uri.getQueryParameter(QUERY_CODE);
                     mCodeReceived = true;
                     requestAccessCode(code);
                 }

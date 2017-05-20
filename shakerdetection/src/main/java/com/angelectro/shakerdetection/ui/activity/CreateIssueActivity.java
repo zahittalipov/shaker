@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,11 +20,13 @@ import com.angelectro.shakerdetection.R;
 import com.angelectro.shakerdetection.exception.SlackUserNotSettingsException;
 import com.angelectro.shakerdetection.model.InformationLog;
 import com.angelectro.shakerdetection.ui.settingslack.activity.SettingsSlackActivity;
+import com.angelectro.shakerdetection.utils.KeyboardUtils;
+import com.angelectro.shakerdetection.utils.PrefUtils;
 import com.angelectro.shakerdetection.utils.UiUtils;
 
-/**
- * Created by Загит Талипов on 09.04.2017.
- */
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 
 public class CreateIssueActivity extends AppCompatActivity implements CreateIssueView {
 
@@ -39,8 +40,8 @@ public class CreateIssueActivity extends AppCompatActivity implements CreateIssu
     private ImageView mImageView;
     private CheckBox mBoxSlack;
     private CheckBox mBoxJira;
-    InformationLog mInformationLog;
-    CreateIssuePresenter mPresenter;
+    private InformationLog mInformationLog;
+    private CreateIssuePresenter mPresenter;
     private MaterialDialog mMaterialDialog;
 
 
@@ -67,11 +68,14 @@ public class CreateIssueActivity extends AppCompatActivity implements CreateIssu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         mInformationLog.setComment(mAuthorComment.getText().toString());
+        mTitle.clearFocus();
+        mAuthorComment.clearFocus();
         if (item.getItemId() == R.id.action_send) {
-            if (mBoxJira.isChecked() && TextUtils.isEmpty(mTitle.getText()))
+            if (mBoxJira.isChecked() && TextUtils.isEmpty(mTitle.getText())) {
                 UiUtils.showToast(getString(R.string.enter_name_issue), getApplicationContext());
-            else if (mBoxSlack.isChecked() || mBoxJira.isChecked())
-                mPresenter.sendInfoSlack(mInformationLog);
+                KeyboardUtils.showKeyboard(mTitle);
+            } else if (mBoxSlack.isChecked() || mBoxJira.isChecked())
+                mPresenter.sendInfo(mInformationLog, mBoxSlack.isChecked(), mBoxJira.isChecked(), mTitle.getText().toString());
             else
                 UiUtils.showToast(getString(R.string.nothing_not_selected), getApplicationContext());
             return true;
@@ -87,16 +91,19 @@ public class CreateIssueActivity extends AppCompatActivity implements CreateIssu
         mImageView = (ImageView) findViewById(R.id.screenshot_image);
         mBoxJira = (CheckBox) findViewById(R.id.box_jira);
         mBoxSlack = (CheckBox) findViewById(R.id.box_slack);
-        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int id = buttonView.getId();
-                if (id == R.id.box_jira) {
-                    mTitle.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                }
+        mBoxSlack.setChecked(PrefUtils.Settings.isCheckedSlack(getApplicationContext()));
+        boolean checkedJira = PrefUtils.Settings.isCheckedJira(getApplicationContext());
+        mBoxJira.setChecked(checkedJira);
+        mTitle.setVisibility(checkedJira ? VISIBLE : GONE);
+        CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
+            int id = buttonView.getId();
+            if (id == R.id.box_jira) {
+                mTitle.setVisibility(isChecked ? VISIBLE : GONE);
             }
+            mPresenter.saveSettings(mBoxSlack.isChecked(), mBoxJira.isChecked());
         };
         mBoxJira.setOnCheckedChangeListener(listener);
+        mBoxSlack.setOnCheckedChangeListener(listener);
     }
 
     void initData() {
@@ -127,7 +134,7 @@ public class CreateIssueActivity extends AppCompatActivity implements CreateIssu
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SLACK) {
-            mPresenter.sendInfoSlack(mInformationLog);
+            mPresenter.sendInfo(mInformationLog, mBoxSlack.isChecked(), mBoxJira.isChecked(), mTitle.getText().toString());
         } else if (requestCode == RESULT_CANCELED) {
             UiUtils.showAuthError(this);
         }
