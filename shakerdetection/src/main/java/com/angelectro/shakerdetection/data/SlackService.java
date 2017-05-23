@@ -40,7 +40,7 @@ public interface SlackService {
                                           @Query("channel") String channel,
                                           @Query("text") String text,
                                           @Query(value = "attachments") String attachments);
-    
+
 
     @GET("channels.list")
     Observable<SlackChannelResponse> getChannelsList(

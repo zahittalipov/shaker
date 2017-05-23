@@ -53,11 +53,11 @@ public class Shaker implements ShakeDetector.OnShakeListener {
     public void OnShake() {
         Activity activity = AppUtils.getActivity();
         if (activity != null && !TextUtils.equals(activity.getClass().getPackage().toString(), CreateIssueActivity.class.getPackage().toString()))
-            takeScreenshot(activity);
+            collectInformation(activity);
     }
 
 
-    private void takeScreenshot(Activity activity) {
+    private void collectInformation(Activity activity) {
         try {
             InformationLog information = new InformationLog(
                     AppUtils.getScreenshot(activity),
