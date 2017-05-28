@@ -46,6 +46,48 @@
         }
     ]
     </string>
+    <string name="text_body_json_with_issue" formatted="false">
+    [
+        {
+            \"color\": \"#36a64f\",
+            \"author_name\": \"from %s (Android %s)\",
+            \"title\": \"Show logs\",
+            \"title_link\": \"%s\",
+            \"fields\": [
+                {
+                    \"title\": \"Project\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                },
+				{
+                    \"title\": \"Version\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                }
+        ,
+				{
+                    \"title\": \"Version code\",
+                    \"value\": \"%s\",
+                    \"short\": true
+                }
+            ],
+			\"mrkdwn_in\": [\"author_name\",\"title\"],
+            \"image_url\": \"%s\",
+
+            \"ts\": %s
+        },
+        {
+            \"color\": \"#36a64f\",
+            \"title\": \"Show screenshot\",
+            \"title_link\": \"%s\"
+        },
+        {
+            \"color\": \"#cc573d\",
+            \"title\": \"Go to JIRA\",
+            \"title_link\": \"%s\"
+        }
+    ]
+    </string>
     <string name="select_channel">Выберите канал</string>
     <string name="slack_authorize" formatted="false"><![CDATA[https://slack.com/oauth/authorize?client_id=%s&scope=%s&redirect_uri=%s&team=%s]]></string>
     <string name="settings_slack">Настройки Slack</string>
@@ -53,7 +95,11 @@
     <string name="notification_slack">Оповещение в Slack</string>
     <string name="enter_name_issue">Введите название задачи</string>
     <string name="nothing_not_selected">Ничего не выбрано</string>
-    <string name="screenshot">content_desription</string>
+    <string name="screenshot">content_description</string>
     <string name="general_error">Произошла неизвестная ошибка</string>
     <string name="message_sended">Сообщение отправлено</string>
+    <string name="auth_jira" formatted="false">%s/plugins/servlet/oauth/authorize?oauth_token=%s</string>
+    <string name="select_project">Выберите проект</string>
+    <string name="settings_jira">Настройки Jira</string>
+    <string name="error_not_connected">Отсутствует подключение к интернету</string>
 </resources>

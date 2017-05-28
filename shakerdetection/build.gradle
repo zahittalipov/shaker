@@ -20,6 +20,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,5 +53,9 @@ dependencies {
     compile "io.reactivex:rxandroid:$RX_ANDROID_VERSION"
     compile "io.reactivex:rxjava:$RX_ANDROID_VERSION"
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
+    compile 'com.google.oauth-client:google-oauth-client:1.22.0'
+    compile 'com.orhanobut:hawk:2.0.1'
+    compile 'com.annimon:stream:1.1.4'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     testCompile 'junit:junit:4.12'
 }

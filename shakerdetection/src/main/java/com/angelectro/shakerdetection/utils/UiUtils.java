@@ -2,16 +2,16 @@ package com.angelectro.shakerdetection.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.View;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.angelectro.shakerdetection.R;
-import com.angelectro.shakerdetection.action.Action;
-import com.angelectro.shakerdetection.data.model.Channel;
 
 import java.util.List;
+
+import rx.functions.Action1;
 
 /**
  * Created by Загит Талипов on 28.03.2017.
@@ -40,16 +40,23 @@ public class UiUtils {
                 .show();
     }
 
-    public static MaterialDialog showSingleChoiceChannelDialog(Context context, final List<Channel> channels, final Action<Channel> channelAction) {
+    public static void showError(Context context, String message) {
+        new MaterialDialog.Builder(context)
+                .content(message)
+                .positiveText(R.string.text_button_ok)
+                .onPositive((dialog, which) -> {
+                })
+                .show();
+    }
+
+
+    public static <T> MaterialDialog showSingleChoiceDialog(Context context, @StringRes int title, final List<T> channels, final Action1<T> channelAction) {
         return new MaterialDialog.Builder(context)
-                .title(R.string.select_channel)
+                .title(title)
                 .items(channels)
-                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        channelAction.call(channels.get(which));
-                        return true;
-                    }
+                .itemsCallbackSingleChoice(0, (dialog, itemView, which, text) -> {
+                    channelAction.call(channels.get(which));
+                    return true;
                 })
                 .cancelable(false)
                 .positiveText(R.string.text_button_ok)

@@ -7,15 +7,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
-            android:name=".ui.activity.CreateIssueActivity"
+            android:name=".feature.createissui.CreateIssueActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
-            android:name=".ui.settingslack.activity.SettingsSlackActivity"
+            android:name=".feature.settingslack.SettingsSlackActivity"
+            android:label="@string/settings_slack"
             android:screenOrientation="portrait"
-            android:label="@string/settings_slack"/>
+            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".feature.settingjira.SettingsJiraActivity"
+                  android:label="@string/settings_jira"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"/>
     </application>
 
 </manifest>
