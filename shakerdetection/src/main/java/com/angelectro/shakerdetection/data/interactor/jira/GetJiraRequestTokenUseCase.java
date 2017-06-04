@@ -14,9 +14,7 @@ import retrofit2.Response;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by Загит Талипов on 28.05.2017.
- */
+
 
 public class GetJiraRequestTokenUseCase extends UseCase<Boolean> {
 

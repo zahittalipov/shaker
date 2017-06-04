@@ -50,6 +50,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
+
     compile "io.reactivex:rxandroid:$RX_ANDROID_VERSION"
     compile "io.reactivex:rxjava:$RX_ANDROID_VERSION"
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'

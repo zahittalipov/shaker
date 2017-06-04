@@ -19,18 +19,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 
-
 public class AppUtils {
 
     private static final String TAG = AppUtils.class.getSimpleName();
-    private static final String processId = Integer.toString(android.os.Process.myPid());
+    private static final String PROCESS_ID = Integer.toString(android.os.Process.myPid());
 
     @Nullable
     public static Activity getActivity() {
         Class activityThreadClass = null;
         try {
             activityThreadClass = Class.forName("android.app.ActivityThread");
-            Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
+            Object activityThread = activityThreadClass.getMethod("currentActivityThread")
+                    .invoke(null);
             Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
             activitiesField.setAccessible(true);
             ArrayMap activities = (ArrayMap) activitiesField.get(activityThread);
@@ -137,8 +137,7 @@ public class AppUtils {
             String line;
             boolean isFirstLine = true;
             while ((line = bufferedReader.readLine()) != null) {
-
-                if (line.contains(processId)) {
+                if (line.contains(PROCESS_ID)) {
                     if (!isFirstLine) {
                         builder.append("\n");
                     }

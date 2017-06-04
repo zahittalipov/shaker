@@ -1,4 +1,4 @@
-package com.angelectro.shakerdetection.model;
+package com.angelectro.shakerdetection.data.model;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -68,9 +68,6 @@ public class InformationLog implements Parcelable {
     }
 
     protected InformationLog(Parcel in) {
-        /*byte[] bytes = new byte[in.readInt()];
-        in.readByteArray(bytes);
-        mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);*/
         mVersionCode = in.readString();
         mVersionName = in.readString();
         mLogs = in.readString();
@@ -82,11 +79,6 @@ public class InformationLog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-      /*  ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-        byte[] byteArray = stream.toByteArray();
-        dest.writeInt(byteArray.length);
-        dest.writeByteArray(byteArray);*/
         dest.writeString(mVersionCode);
         dest.writeString(mVersionName);
         dest.writeString(mLogs);

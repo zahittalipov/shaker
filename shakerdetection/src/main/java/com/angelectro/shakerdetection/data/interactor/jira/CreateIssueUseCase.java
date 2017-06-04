@@ -7,7 +7,7 @@ import com.angelectro.shakerdetection.data.model.jira.CreateIssueBodyModel;
 import com.angelectro.shakerdetection.data.model.jira.IssueResponseModel;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferences;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferencesImpl;
-import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.data.model.InformationLog;
 
 import rx.Observable;
 

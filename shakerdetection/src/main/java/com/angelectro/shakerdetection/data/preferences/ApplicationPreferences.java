@@ -5,9 +5,7 @@ import com.angelectro.shakerdetection.data.model.jira.JiraAuthModel;
 import com.angelectro.shakerdetection.data.model.slack.SlackAccessTokenResponse;
 import com.angelectro.shakerdetection.data.model.slack.SlackAuthData;
 
-/**
- * Created by Загит Талипов on 27.05.2017.
- */
+
 
 public interface ApplicationPreferences {
 

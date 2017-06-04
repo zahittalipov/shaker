@@ -3,7 +3,7 @@ package com.angelectro.shakerdetection.data.interactor.composite;
 import com.angelectro.shakerdetection.data.interactor.internal.UseCase;
 import com.angelectro.shakerdetection.data.interactor.jira.CreateIssueUseCase;
 import com.angelectro.shakerdetection.data.interactor.slack.SendMessageUseCase;
-import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.data.model.InformationLog;
 
 import rx.Observable;
 

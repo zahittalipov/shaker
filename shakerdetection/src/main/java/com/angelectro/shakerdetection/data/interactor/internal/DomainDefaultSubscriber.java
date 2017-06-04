@@ -11,8 +11,6 @@ import com.google.gson.Gson;
 public abstract class DomainDefaultSubscriber<T> extends rx.Subscriber<T> {
 
 
-    Gson gson;
-
     @CallSuper
     @Override
     public void onCompleted() {

@@ -1,24 +1,23 @@
 package com.angelectro.shakerdetection.data.model.jira;
 
-/**
- * Created by Загит Талипов on 27.05.2017.
- */
+
 
 public class JiraAuthModel {
-    String consumerKey;
-    String accessToken;
-    String privateKey;
-    String secret;
-    String baseUrl;
-    String callback;
-    String projectId;
+    private String consumerKey;
+    private String accessToken;
+    private String privateKey;
+    private String secret;
+    private String baseUrl;
+    private String callback;
+    private String projectId;
 
     public String getProjectId() {
         return projectId;
     }
 
     public void setProjectId(String projectId) {
-        this.projectId = projectId;
+        if (projectId != null)
+            this.projectId = projectId;
     }
 
     public String getCallback() {

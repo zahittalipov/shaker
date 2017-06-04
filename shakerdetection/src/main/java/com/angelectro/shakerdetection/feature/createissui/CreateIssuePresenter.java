@@ -15,8 +15,8 @@ import com.angelectro.shakerdetection.data.model.slack.SlackAuthData;
 import com.angelectro.shakerdetection.data.model.slack.SlackMessageResponse;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferences;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferencesImpl;
-import com.angelectro.shakerdetection.exception.JiraUserNotAuthenticatedException;
-import com.angelectro.shakerdetection.exception.SlackUserNotSettingsException;
+import com.angelectro.shakerdetection.base.exception.JiraUserNotAuthenticatedException;
+import com.angelectro.shakerdetection.base.exception.SlackUserNotSettingsException;
 
 
 public class CreateIssuePresenter extends BasePresenter<CreateIssueView> {

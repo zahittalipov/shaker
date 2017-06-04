@@ -9,7 +9,7 @@ import com.angelectro.shakerdetection.data.model.slack.SlackAuthData;
 import com.angelectro.shakerdetection.data.model.slack.SlackMessageResponse;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferences;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferencesImpl;
-import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.data.model.InformationLog;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -19,9 +19,7 @@ import rx.Observable;
 import static com.angelectro.shakerdetection.data.interactor.slack.FileUploadUseCase.JPEG_FORMAT;
 import static com.angelectro.shakerdetection.data.interactor.slack.FileUploadUseCase.TEXT_FORMAT;
 
-/**
- * Created by Загит Талипов on 28.05.2017.
- */
+
 
 public class SendMessageUseCase extends UseCase<SlackMessageResponse> {
     private SlackService mSlackService;

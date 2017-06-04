@@ -2,9 +2,7 @@ package com.angelectro.shakerdetection.data.model.jira;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Загит Талипов on 28.05.2017.
- */
+
 
 public class ProjectModel {
     @SerializedName("id")

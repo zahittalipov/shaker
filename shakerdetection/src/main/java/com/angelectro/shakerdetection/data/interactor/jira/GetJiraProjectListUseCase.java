@@ -11,9 +11,7 @@ import java.util.List;
 
 import rx.Observable;
 
-/**
- * Created by Загит Талипов on 28.05.2017.
- */
+
 
 public class GetJiraProjectListUseCase extends UseCase<List<ProjectModel>> {
     private JiraService mJiraService;

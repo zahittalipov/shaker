@@ -102,4 +102,5 @@
     <string name="select_project">Выберите проект</string>
     <string name="settings_jira">Настройки Jira</string>
     <string name="error_not_connected">Отсутствует подключение к интернету</string>
+    <string name="collect_error">Не удалось совершить сбор данных</string>
 </resources>

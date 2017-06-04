@@ -2,7 +2,7 @@ package com.angelectro.shakerdetection.feature.createissui;
 
 import com.angelectro.shakerdetection.base.MvpView;
 import com.angelectro.shakerdetection.base.progress.ProgressView;
-import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.data.model.InformationLog;
 
 import rx.functions.Action4;
 

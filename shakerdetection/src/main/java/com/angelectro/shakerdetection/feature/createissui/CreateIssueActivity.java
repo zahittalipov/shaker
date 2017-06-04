@@ -15,17 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.angelectro.shakerdetection.R;
 import com.angelectro.shakerdetection.base.progress.ProgressView;
 import com.angelectro.shakerdetection.data.model.ViewStateModel;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferences;
 import com.angelectro.shakerdetection.data.preferences.ApplicationPreferencesImpl;
-import com.angelectro.shakerdetection.exception.JiraUserNotAuthenticatedException;
-import com.angelectro.shakerdetection.exception.SlackUserNotSettingsException;
+import com.angelectro.shakerdetection.base.exception.JiraUserNotAuthenticatedException;
+import com.angelectro.shakerdetection.base.exception.SlackUserNotSettingsException;
 import com.angelectro.shakerdetection.feature.settingjira.SettingsJiraActivity;
 import com.angelectro.shakerdetection.feature.settingslack.SettingsSlackActivity;
-import com.angelectro.shakerdetection.model.InformationLog;
+import com.angelectro.shakerdetection.data.model.InformationLog;
 import com.angelectro.shakerdetection.utils.KeyboardUtils;
 import com.angelectro.shakerdetection.utils.UiUtils;
 

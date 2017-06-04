@@ -1,4 +1,4 @@
-package com.angelectro.shakerdetection.exception;
+package com.angelectro.shakerdetection.base.exception;
 
 /**
  * Created by Загит Талипов on 23.04.2017.
